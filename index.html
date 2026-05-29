@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTSFlow | Your Complete IELTS Preparation</title>
+    <title>IELTSFlow | Comprehensive IELTS Preparation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -13,141 +13,412 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#3B82F6',
+                        primary: '#2563EB',
                         secondary: '#10B981',
+                        darkBg: '#111827',
+                        darkCard: '#1F2937'
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Smooth transition for theme toggling */
-        body { transition: background-color 0.3s, color 0.3s; }
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Custom Scrollbar for split panes */
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background-color: #CBD5E1; border-radius: 4px; }
+        .dark .custom-scroll::-webkit-scrollbar-thumb { background-color: #4B5563; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans antialiased dark:bg-gray-900 dark:text-gray-100 flex flex-col min-h-screen">
+<body class="bg-gray-50 text-gray-900 font-sans antialiased dark:bg-darkBg dark:text-gray-100 flex flex-col min-h-screen transition-colors duration-300">
 
-    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
+    <header class="bg-white dark:bg-darkCard shadow-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center">
-                    <i class="fa-solid fa-graduation-cap text-primary text-2xl mr-2"></i>
-                    <span class="font-bold text-xl tracking-tight">IELTSFlow</span>
+                <div class="flex items-center cursor-pointer" onclick="switchView('dashboard')">
+                    <i class="fa-solid fa-graduation-cap text-primary text-3xl mr-3"></i>
+                    <div>
+                        <span class="font-bold text-xl tracking-tight block leading-none">IELTSFlow</span>
+                        <span class="text-[10px] text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider">Speakers World & Tutors</span>
+                    </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button id="lang-toggle" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary transition">
+                    <button class="text-xs font-bold px-3 py-1.5 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition">
                         EN / BN
                     </button>
-                    <button id="theme-toggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition">
-                        <i id="theme-icon" class="fa-solid fa-moon"></i>
+                    <button id="theme-toggle" class="p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
                     </button>
+                    <div class="hidden sm:block text-sm font-medium bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1.5 rounded-full shadow-sm">
+                        <i class="fa-solid fa-crown mr-1"></i> Premium
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex flex-col md:flex-row gap-6">
         
-        <section class="mb-10 bg-primary text-white rounded-2xl p-6 shadow-lg flex flex-col md:flex-row justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-bold mb-2">Welcome back to IELTSFlow!</h1>
-                <p class="text-blue-100">Ready to crush your target band score today?</p>
-            </div>
-            <div class="mt-4 md:mt-0 flex items-center bg-white/20 rounded-lg p-3">
-                <i class="fa-solid fa-fire text-orange-400 text-2xl mr-3"></i>
-                <div>
-                    <p class="text-sm font-semibold uppercase tracking-wider">Current Streak</p>
-                    <p class="text-xl font-bold">3 Days</p>
+        <aside class="w-full md:w-64 shrink-0">
+            <nav class="bg-white dark:bg-darkCard rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 p-4 sticky top-24 space-y-2">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 px-3">Learning Modules</p>
+                
+                <button onclick="switchView('dashboard')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-left text-gray-600 dark:text-gray-300 hover:bg-blue-50 hover:text-primary dark:hover:bg-gray-800 transition active-nav">
+                    <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+                    <span class="font-medium">Dashboard</span>
+                </button>
+
+                <button onclick="switchView('vocabulary')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-left text-gray-600 dark:text-gray-300 hover:bg-blue-50 hover:text-primary dark:hover:bg-gray-800 transition">
+                    <i class="fa-solid fa-book-open text-blue-500 w-5 text-center"></i>
+                    <span class="font-medium">Vocabulary Engine</span>
+                </button>
+
+                <button onclick="switchView('reading')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-left text-gray-600 dark:text-gray-300 hover:bg-blue-50 hover:text-primary dark:hover:bg-gray-800 transition">
+                    <i class="fa-solid fa-clock text-green-500 w-5 text-center"></i>
+                    <span class="font-medium">Reading Timer</span>
+                </button>
+
+                <button onclick="switchView('writing')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-left text-gray-600 dark:text-gray-300 hover:bg-blue-50 hover:text-primary dark:hover:bg-gray-800 transition">
+                    <i class="fa-solid fa-pen-nib text-purple-500 w-5 text-center"></i>
+                    <span class="font-medium">Writing Tasks 1 & 2</span>
+                </button>
+
+                <button onclick="switchView('speaking')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-left text-gray-600 dark:text-gray-300 hover:bg-blue-50 hover:text-primary dark:hover:bg-gray-800 transition">
+                    <i class="fa-solid fa-microphone-lines text-pink-500 w-5 text-center"></i>
+                    <span class="font-medium">Speaking Generator</span>
+                </button>
+
+                <div class="pt-4 mt-4 border-t border-gray-100 dark:border-gray-700">
+                    <button onclick="switchView('calculator')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-left text-gray-600 dark:text-gray-300 hover:bg-orange-50 hover:text-orange-600 dark:hover:bg-gray-800 transition">
+                        <i class="fa-solid fa-calculator text-orange-500 w-5 text-center"></i>
+                        <span class="font-medium">Band Calculator</span>
+                    </button>
                 </div>
-            </div>
-        </section>
+            </nav>
+        </aside>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 hover:shadow-md transition cursor-pointer">
-                <div class="flex items-center mb-4">
-                    <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg mr-4">
-                        <i class="fa-solid fa-spell-check text-primary text-xl"></i>
+        <main class="flex-grow min-w-0">
+            
+            <section id="dashboard" class="view-section active">
+                <div class="bg-gradient-to-r from-primary to-blue-500 rounded-2xl p-8 text-white shadow-lg mb-6 flex flex-col md:flex-row justify-between items-center">
+                    <div>
+                        <h1 class="text-3xl font-bold mb-2">Welcome to your IELTS Journey</h1>
+                        <p class="text-blue-100">Consistency is key. You're on a 3-day study streak!</p>
                     </div>
-                    <h2 class="text-xl font-semibold">Vocabulary Builder</h2>
-                </div>
-                <p class="text-gray-600 dark:text-gray-400 mb-4">Search words, view Bengali meanings, and use the AI checker to evaluate your practice sentences.</p>
-                <div class="flex space-x-2">
-                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Word Search</span>
-                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Quizzes</span>
-                    <span class="text-xs bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded text-primary font-medium border border-blue-200 dark:border-blue-800">AI Checked</span>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 hover:shadow-md transition cursor-pointer">
-                <div class="flex items-center mb-4">
-                    <div class="bg-green-100 dark:bg-green-900 p-3 rounded-lg mr-4">
-                        <i class="fa-solid fa-pen-nib text-secondary text-xl"></i>
+                    <div class="mt-6 md:mt-0 bg-white/20 backdrop-blur-md rounded-xl p-4 text-center min-w-[120px]">
+                        <i class="fa-solid fa-fire text-amber-300 text-3xl mb-1"></i>
+                        <div class="text-2xl font-black">3</div>
+                        <div class="text-xs uppercase tracking-wider font-semibold">Days</div>
                     </div>
-                    <h2 class="text-xl font-semibold">Writing Templates</h2>
                 </div>
-                <p class="text-gray-600 dark:text-gray-400 mb-4">Master Task 1 (Charts/Graphs) and Task 2 (Essays) with structured shells and sample answers.</p>
-                <div class="flex space-x-2">
-                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Task 1 & 2</span>
-                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Model Answers</span>
-                </div>
-            </div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 hover:shadow-md transition cursor-pointer">
-                <div class="flex items-center mb-4">
-                    <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded-lg mr-4">
-                        <i class="fa-solid fa-microphone-lines text-purple-600 text-xl"></i>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-darkCard rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+                        <h3 class="text-lg font-bold mb-4 flex items-center"><i class="fa-solid fa-star text-amber-400 mr-2"></i> Word of the Day</h3>
+                        <div class="mb-4">
+                            <span class="text-2xl font-black text-primary">Ubiquitous</span>
+                            <span class="ml-3 text-sm bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300 italic">adjective</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300 mb-2"><strong>EN:</strong> Present, appearing, or found everywhere.</p>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 font-bengali"><strong>BN:</strong> সর্বব্যাপী</p>
+                        <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg border-l-4 border-primary text-sm text-gray-700 dark:text-gray-300">
+                            "Smartphones have become ubiquitous in modern society."
+                        </div>
                     </div>
-                    <h2 class="text-xl font-semibold">Speaking Generator</h2>
-                </div>
-                <p class="text-gray-600 dark:text-gray-400 mb-4">Practice Parts 1, 2, and 3. Use the built-in voice recorder for self-awareness and review.</p>
-                <div class="flex space-x-2">
-                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Cue Cards</span>
-                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Voice Record</span>
-                </div>
-            </div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 hover:shadow-md transition cursor-pointer">
-                <div class="flex items-center mb-4">
-                    <div class="bg-orange-100 dark:bg-orange-900 p-3 rounded-lg mr-4">
-                        <i class="fa-solid fa-calculator text-orange-600 text-xl"></i>
+                    <div class="bg-white dark:bg-darkCard rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+                        <h3 class="text-lg font-bold mb-4 flex items-center"><i class="fa-solid fa-bullseye text-red-500 mr-2"></i> Target Tracker</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="font-medium">Reading</span>
+                                    <span class="text-gray-500">Goal: 7.5</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="font-medium">Writing</span>
+                                    <span class="text-gray-500">Goal: 7.0</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                    <div class="bg-orange-500 h-2 rounded-full" style="width: 60%"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h2 class="text-xl font-semibold">Band Calculator</h2>
                 </div>
-                <p class="text-gray-600 dark:text-gray-400 mb-4">Input your raw scores for accurate Academic and General Training overall band estimations.</p>
-                <div class="flex space-x-2">
-                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Academic</span>
-                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">General Training</span>
+            </section>
+
+            <section id="vocabulary" class="view-section">
+                <h2 class="text-2xl font-bold mb-6 border-b border-gray-200 dark:border-gray-800 pb-2">Vocabulary Engine</h2>
+                
+                <div class="bg-white dark:bg-darkCard rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 mb-6">
+                    <div class="relative mb-6">
+                        <input type="text" placeholder="Search any word for Bengali meaning & IELTS examples..." class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white">
+                        <i class="fa-solid fa-search absolute left-4 top-3.5 text-gray-400"></i>
+                        <button class="absolute right-2 top-2 bg-primary text-white px-4 py-1.5 rounded-md hover:bg-blue-600">Search</button>
+                    </div>
+
+                    <div class="bg-blue-50 dark:bg-blue-900/10 rounded-lg p-5 border border-blue-100 dark:border-blue-800/30">
+                        <h4 class="font-bold text-primary mb-2 flex items-center"><i class="fa-solid fa-robot mr-2"></i> AI Practice Box</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Write 3-4 sentences using your searched word. Our AI will evaluate grammar, tone, and IELTS relevance.</p>
+                        <textarea rows="3" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white" placeholder="Type your practice sentences here..."></textarea>
+                        <button class="bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-600 transition flex items-center">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Evaluate Answer
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-        </div>
-    </main>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button class="bg-white dark:bg-darkCard border border-gray-200 dark:border-gray-800 p-5 rounded-xl hover:border-primary dark:hover:border-primary transition group text-left">
+                        <div class="bg-purple-100 dark:bg-purple-900/30 w-12 h-12 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-list-check text-purple-600 dark:text-purple-400 text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Structured Quiz Mode</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Multiple-choice tests to reinforce memory.</p>
+                    </button>
+                    <button class="bg-white dark:bg-darkCard border border-gray-200 dark:border-gray-800 p-5 rounded-xl hover:border-secondary dark:hover:border-secondary transition group text-left">
+                        <div class="bg-green-100 dark:bg-green-900/30 w-12 h-12 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-gamepad text-secondary text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Fast-Paced Game Mode</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Word scramble and flashcards for quick recall.</p>
+                    </button>
+                </div>
+            </section>
 
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 dark:text-gray-400">
-            <div class="mb-4 md:mb-0">
+            <section id="reading" class="view-section">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-gray-200 dark:border-gray-800 pb-4">
+                    <h2 class="text-2xl font-bold">Reading Practice Timer</h2>
+                    <div class="flex space-x-2 mt-3 sm:mt-0">
+                        <button class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700">20 Min</button>
+                        <button class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700">45 Min</button>
+                        <button class="px-4 py-2 bg-primary text-white rounded-md text-sm font-bold hover:bg-blue-600 shadow-sm">60 Min Exam</button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-6 h-[600px]">
+                    <div class="w-full lg:w-1/2 bg-white dark:bg-darkCard rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 flex flex-col">
+                        <div class="bg-gray-50 dark:bg-gray-800 p-3 border-b border-gray-200 dark:border-gray-700 rounded-t-xl flex justify-between items-center">
+                            <span class="font-bold text-sm uppercase tracking-wide text-gray-500">Reading Passage</span>
+                            <button class="text-primary text-sm hover:underline"><i class="fa-solid fa-upload"></i> Upload Text</button>
+                        </div>
+                        <div class="p-6 overflow-y-auto custom-scroll flex-grow text-gray-700 dark:text-gray-300 leading-relaxed">
+                            <p class="mb-4 text-xl font-bold text-gray-900 dark:text-white">The History of the Tortoise</p>
+                            <p class="mb-4">If you go back far enough, everything lived in the sea. At various points in evolutionary history, enterprising individuals within many different animal groups moved out onto the land...</p>
+                            <p class="mb-4 text-gray-400 italic">[Paste your full reading passage here to practice in a distraction-free environment mirroring the actual exam layout.]</p>
+                        </div>
+                    </div>
+
+                    <div class="w-full lg:w-1/2 bg-white dark:bg-darkCard rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 flex flex-col">
+                        <div class="bg-gray-50 dark:bg-gray-800 p-3 border-b border-gray-200 dark:border-gray-700 rounded-t-xl flex justify-between items-center">
+                            <span class="font-bold text-sm uppercase tracking-wide text-gray-500">Questions Panel</span>
+                            <span class="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 font-mono px-2 py-1 rounded text-sm font-bold"><i class="fa-regular fa-clock"></i> 59:59</span>
+                        </div>
+                        <div class="p-6 overflow-y-auto custom-scroll flex-grow space-y-6">
+                            <div>
+                                <p class="font-bold text-sm mb-3 text-gray-800 dark:text-gray-200">Questions 1-3: Do the following statements agree with the information?</p>
+                                <div class="space-y-3">
+                                    <div class="flex items-start">
+                                        <span class="font-bold mr-3 mt-1">1</span>
+                                        <div>
+                                            <p class="text-sm mb-2">Turtles were among the first group of animals to migrate back to the sea.</p>
+                                            <select class="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-sm rounded-md p-1.5">
+                                                <option>Select...</option><option>True</option><option>False</option><option>Not Given</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="writing" class="view-section">
+                <h2 class="text-2xl font-bold mb-6 border-b border-gray-200 dark:border-gray-800 pb-2">Academic Writing Modules</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-darkCard rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
+                        <div class="bg-indigo-500 p-4 text-white">
+                            <h3 class="text-lg font-bold">Task 1: Data Interpretation</h3>
+                            <p class="text-indigo-100 text-sm">Vocabulary in context & structured shells</p>
+                        </div>
+                        <div class="p-2">
+                            <ul class="divide-y divide-gray-100 dark:divide-gray-800">
+                                <li class="p-3 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer flex justify-between items-center rounded-md transition">
+                                    <span><i class="fa-solid fa-chart-line w-6 text-gray-400"></i> Line Graph Templates</span>
+                                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                                </li>
+                                <li class="p-3 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer flex justify-between items-center rounded-md transition">
+                                    <span><i class="fa-solid fa-chart-bar w-6 text-gray-400"></i> Bar Chart Templates</span>
+                                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                                </li>
+                                <li class="p-3 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer flex justify-between items-center rounded-md transition">
+                                    <span><i class="fa-solid fa-chart-pie w-6 text-gray-400"></i> Pie Chart & Tables</span>
+                                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                                </li>
+                                <li class="p-3 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer flex justify-between items-center rounded-md transition">
+                                    <span><i class="fa-solid fa-diagram-project w-6 text-gray-400"></i> Process Diagram / Maps</span>
+                                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-darkCard rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
+                        <div class="bg-teal-600 p-4 text-white">
+                            <h3 class="text-lg font-bold">Task 2: Essay Writing</h3>
+                            <p class="text-teal-100 text-sm">Essay structure templates (Intro → Body → Conclusion)</p>
+                        </div>
+                        <div class="p-2">
+                            <ul class="divide-y divide-gray-100 dark:divide-gray-800">
+                                <li class="p-3 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer flex justify-between items-center rounded-md transition">
+                                    <span><i class="fa-regular fa-comments w-6 text-gray-400"></i> Opinion / Agree-Disagree</span>
+                                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                                </li>
+                                <li class="p-3 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer flex justify-between items-center rounded-md transition">
+                                    <span><i class="fa-solid fa-people-arrows w-6 text-gray-400"></i> Discussion (Both Views)</span>
+                                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                                </li>
+                                <li class="p-3 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer flex justify-between items-center rounded-md transition">
+                                    <span><i class="fa-solid fa-wrench w-6 text-gray-400"></i> Problem & Solution</span>
+                                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                                </li>
+                                <li class="p-3 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer flex justify-between items-center rounded-md transition flex items-center justify-between">
+                                    <span><i class="fa-solid fa-scale-balanced w-6 text-gray-400"></i> Advantages & Disadvantages</span>
+                                    <span class="bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full"><i class="fa-solid fa-lock text-[8px]"></i> PRO</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="speaking" class="view-section">
+                <div class="flex justify-between items-end mb-6 border-b border-gray-200 dark:border-gray-800 pb-2">
+                    <h2 class="text-2xl font-bold">Speaking Question Generator</h2>
+                    <button class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-lg text-sm font-bold flex items-center shadow-sm hover:opacity-90 transition">
+                        <i class="fa-solid fa-microphone text-red-500 mr-2"></i> Record Answer
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-white dark:bg-darkCard rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+                        <h3 class="font-bold text-lg mb-2 text-primary">Part 1: Personal & Familiar Topics</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Topic: Hometown / Work / Study</p>
+                        <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                            <p class="font-medium mb-2">Q: Let's talk about your hometown. What kind of place is it?</p>
+                            <div class="mt-3 text-sm">
+                                <span class="font-semibold text-gray-500 text-xs uppercase tracking-wide">Useful Vocabulary:</span>
+                                <div class="flex flex-wrap gap-2 mt-2">
+                                    <span class="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 px-2 py-1 rounded text-xs">Metropolis</span>
+                                    <span class="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 px-2 py-1 rounded text-xs">Picturesque</span>
+                                    <span class="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 px-2 py-1 rounded text-xs">Bustling</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-darkCard rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-bold text-lg text-secondary">Part 2: Individual Long Turn (Cue Card)</h3>
+                            <span class="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full text-xs font-mono font-bold">02:00</span>
+                        </div>
+                        <div class="bg-yellow-50 dark:bg-yellow-900/20 p-5 rounded-lg border border-yellow-200 dark:border-yellow-800/50 mt-4">
+                            <p class="font-bold mb-3">Describe a book that you enjoyed reading.</p>
+                            <p class="text-sm mb-1">You should say:</p>
+                            <ul class="list-disc list-inside text-sm space-y-1 ml-2 text-gray-700 dark:text-gray-300">
+                                <li>what the book is</li>
+                                <li>what it is about</li>
+                                <li>why you read it</li>
+                                <li>and explain why you enjoyed reading it.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="calculator" class="view-section">
+                <h2 class="text-2xl font-bold mb-6 border-b border-gray-200 dark:border-gray-800 pb-2">Overall Band Calculator</h2>
+                
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <div class="w-full lg:w-1/2 bg-white dark:bg-darkCard rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+                        
+                        <div class="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1 mb-6">
+                            <button class="flex-1 bg-white dark:bg-gray-600 shadow-sm rounded-md py-2 text-sm font-bold text-gray-900 dark:text-white transition">Academic</button>
+                            <button class="flex-1 rounded-md py-2 text-sm font-medium text-gray-500 hover:text-gray-900 dark:hover:text-white transition">General Training</button>
+                        </div>
+
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">Listening (Raw Score 0-40)</label>
+                                <input type="number" min="0" max="40" placeholder="e.g. 32" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary dark:text-white">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">Reading (Raw Score 0-40)</label>
+                                <input type="number" min="0" max="40" placeholder="e.g. 30" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary dark:text-white">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">Writing (Estimated Band 0-9)</label>
+                                <input type="number" step="0.5" min="0" max="9" placeholder="e.g. 6.5" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary dark:text-white">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">Speaking (Estimated Band 0-9)</label>
+                                <input type="number" step="0.5" min="0" max="9" placeholder="e.g. 7.0" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary dark:text-white">
+                            </div>
+                            <button class="w-full bg-orange-500 text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition shadow-md mt-4">
+                                Calculate Overall Score
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="w-full lg:w-1/2 flex flex-col justify-center items-center bg-gray-50 dark:bg-gray-800/50 rounded-xl p-8 border-2 border-dashed border-gray-200 dark:border-gray-700">
+                        <p class="text-gray-500 dark:text-gray-400 font-medium uppercase tracking-widest mb-4">Estimated Overall Band</p>
+                        
+                        <div class="w-40 h-40 rounded-full bg-white dark:bg-darkCard shadow-lg flex items-center justify-center border-4 border-green-500 mb-6">
+                            <span class="text-5xl font-black text-gray-900 dark:text-white">7.0</span>
+                        </div>
+                        
+                        <div class="text-center">
+                            <h4 class="font-bold text-lg text-green-600 dark:text-green-400">Good User</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 max-w-xs">Has operational command of the language, though with occasional inaccuracies, inappropriacies and misunderstandings in some situations.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer class="bg-white dark:bg-darkCard border-t border-gray-200 dark:border-gray-800 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center text-sm">
+            <div class="text-gray-500 dark:text-gray-400 mb-4 md:mb-0">
                 &copy; 2026 IELTSFlow. Powered by Speakers World & Tutors. All rights reserved.
             </div>
-            <div class="font-medium text-gray-700 dark:text-gray-300">
+            <div class="font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-lg">
                 Developed by: Abidur Rahman Tahmid
             </div>
         </div>
     </footer>
 
     <script>
-        // Dark Mode Toggle Logic
+        // Dark Mode Setup
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
         const htmlElement = document.documentElement;
 
-        // Check local storage or system preference on load
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             htmlElement.classList.add('dark');
             themeIcon.classList.replace('fa-moon', 'fa-sun');
         } else {
             htmlElement.classList.remove('dark');
-            themeIcon.classList.replace('fa-sun', 'fa-moon');
         }
 
         themeToggleBtn.addEventListener('click', function() {
@@ -162,12 +433,34 @@
             }
         });
 
-        // Placeholder UI interaction
-        document.querySelectorAll('.grid > div').forEach(card => {
-            card.addEventListener('click', () => {
-                alert('This module will open in the next phase of development!');
+        // View Switching Logic (Single Page App Simulation)
+        function switchView(viewId) {
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(section => {
+                section.classList.remove('active');
             });
-        });
+            
+            // Remove active styling from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-50', 'text-primary', 'dark:bg-gray-800', 'active-nav');
+                if (btn.textContent.includes('Calculator')) {
+                     btn.classList.remove('bg-orange-50', 'text-orange-600');
+                }
+            });
+
+            // Show target view
+            document.getElementById(viewId).classList.add('active');
+
+            // Add active styling to clicked nav (simple matching by onclick attribute for mockup)
+            const activeBtn = document.querySelector(`button[onclick="switchView('${viewId}')"]`);
+            if(activeBtn) {
+                if (viewId === 'calculator') {
+                    activeBtn.classList.add('bg-orange-50', 'text-orange-600', 'dark:bg-gray-800');
+                } else {
+                    activeBtn.classList.add('bg-blue-50', 'text-primary', 'dark:bg-gray-800');
+                }
+            }
+        }
     </script>
 </body>
 </html>
