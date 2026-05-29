@@ -155,7 +155,7 @@
                 </div>
             </section>
 
-            <section id="vocabulary" class="view-section">
+            <div class="bg-white dark:bg-darkCard rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 mb-6">          <div class="relative mb-4">         <input id="vocab-search-input" type="text" placeholder="Search any word for Bengali meaning & IELTS examples..." class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white">         <i class="fa-solid fa-search absolute left-4 top-3.5 text-gray-400"></i>         <button id="vocab-search-btn" class="absolute right-2 top-2 bg-primary text-white px-4 py-1.5 rounded-md hover:bg-blue-600 transition">Search</button>     </div>      <div id="search-result-container" class="hidden mb-6 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 animation-fadeIn">         </div>      <div class="bg-blue-50 dark:bg-blue-900/10 rounded-lg p-5 border border-blue-100 dark:border-blue-800/30">         <h4 class="font-bold text-primary mb-2 flex items-center"><i class="fa-solid fa-robot mr-2"></i> AI Practice Box</h4>         <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Write 3-4 sentences using your searched word. Our AI will evaluate grammar, tone, and IELTS relevance.</p>         <textarea id="ai-practice-input" rows="3" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white" placeholder="Type your practice sentences here..."></textarea>         <button id="evaluate-btn" class="bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-600 transition flex items-center shadow-sm">             <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Evaluate Answer         </button>                  <div id="evaluation-result-container" class="hidden mt-4 bg-white dark:bg-gray-900 p-4 rounded-lg border-l-4 border-secondary shadow-sm animation-fadeIn">             </div>     </div> </div>
                 <h2 class="text-2xl font-bold mb-6 border-b border-gray-200 dark:border-gray-800 pb-2">Vocabulary Engine</h2>
                 
                 <div class="bg-white dark:bg-darkCard rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 mb-6">
@@ -461,6 +461,75 @@
                 }
             }
         }
+        // --- NEW LOGIC: Vocabulary Engine Interactions ---
+
+        // 1. Search Button Logic
+        const searchBtn = document.getElementById('vocab-search-btn');
+        const searchInput = document.getElementById('vocab-search-input');
+        const searchResultContainer = document.getElementById('search-result-container');
+
+        searchBtn.addEventListener('click', () => {
+            const word = searchInput.value.trim();
+            
+            if (word === "") {
+                alert("Please enter a word to search.");
+                return;
+            }
+
+            // Simulate loading and fetching mock dictionary data
+            searchBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            
+            setTimeout(() => {
+                searchResultContainer.classList.remove('hidden');
+                searchResultContainer.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-xl font-black text-primary capitalize">${word}</span>
+                        <span class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300 italic">adjective / noun</span>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-1 text-sm"><strong>EN:</strong> A dynamically generated definition for the target vocabulary word.</p>
+                    <p class="text-gray-700 dark:text-gray-300 mb-3 font-bengali text-sm"><strong>BN:</strong> একটি গতিশীলভাবে উৎপন্ন অর্থ (Mock Bengali translation)</p>
+                    <div class="bg-blue-100/50 dark:bg-blue-900/20 p-3 rounded-lg border-l-4 border-primary text-sm text-gray-700 dark:text-gray-300">
+                        "The candidate demonstrated a clear understanding of the word <strong>${word}</strong> in an academic context."
+                    </div>
+                `;
+                searchBtn.innerText = 'Search';
+            }, 600); // 600ms delay to simulate network request
+        });
+
+
+        // 2. Evaluate Answer Button Logic
+        const evaluateBtn = document.getElementById('evaluate-btn');
+        const practiceInput = document.getElementById('ai-practice-input');
+        const evaluationContainer = document.getElementById('evaluation-result-container');
+
+        evaluateBtn.addEventListener('click', () => {
+            const text = practiceInput.value.trim();
+            
+            if (text.length < 10) {
+                alert("Please write a bit more! Try composing at least one full sentence.");
+                return;
+            }
+
+            // Simulate AI Processing
+            evaluateBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Analyzing...';
+            
+            setTimeout(() => {
+                evaluationContainer.classList.remove('hidden');
+                evaluationContainer.innerHTML = `
+                    <div class="flex items-center mb-2">
+                        <i class="fa-solid fa-check-circle text-secondary text-lg mr-2"></i>
+                        <span class="font-bold text-gray-900 dark:text-white">Estimated Band: 7.0 - 7.5</span>
+                    </div>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 mb-3">
+                        <strong>Grammar & Tone:</strong> Good academic tone. To push for an 8.0, consider incorporating more complex structures, such as conditional sentences or passive voice, to demonstrate a wider grammatical range. Subject-verb agreement is accurate.
+                    </p>
+                    <div class="bg-green-50 dark:bg-green-900/20 p-2 rounded text-xs text-green-800 dark:text-green-300 border border-green-200 dark:border-green-800">
+                        <i class="fa-solid fa-lightbulb mr-1"></i> <strong>Tip:</strong> Ensure your transition words fluidly connect these thoughts together in Task 2 essays.
+                    </div>
+                `;
+                evaluateBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Evaluate Answer';
+            }, 1200); // 1.2s delay to simulate AI processing time
+        });
     </script>
 </body>
 </html>
