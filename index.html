@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTSFlow | Your Complete IELTS Preparation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth transition for theme toggling */
+        body { transition: background-color 0.3s, color 0.3s; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased dark:bg-gray-900 dark:text-gray-100 flex flex-col min-h-screen">
+
+    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-graduation-cap text-primary text-2xl mr-2"></i>
+                    <span class="font-bold text-xl tracking-tight">IELTSFlow</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="lang-toggle" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary transition">
+                        EN / BN
+                    </button>
+                    <button id="theme-toggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+                        <i id="theme-icon" class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <section class="mb-10 bg-primary text-white rounded-2xl p-6 shadow-lg flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold mb-2">Welcome back to IELTSFlow!</h1>
+                <p class="text-blue-100">Ready to crush your target band score today?</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex items-center bg-white/20 rounded-lg p-3">
+                <i class="fa-solid fa-fire text-orange-400 text-2xl mr-3"></i>
+                <div>
+                    <p class="text-sm font-semibold uppercase tracking-wider">Current Streak</p>
+                    <p class="text-xl font-bold">3 Days</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 hover:shadow-md transition cursor-pointer">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg mr-4">
+                        <i class="fa-solid fa-spell-check text-primary text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold">Vocabulary Builder</h2>
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Search words, view Bengali meanings, and use the AI checker to evaluate your practice sentences.</p>
+                <div class="flex space-x-2">
+                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Word Search</span>
+                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Quizzes</span>
+                    <span class="text-xs bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded text-primary font-medium border border-blue-200 dark:border-blue-800">AI Checked</span>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 hover:shadow-md transition cursor-pointer">
+                <div class="flex items-center mb-4">
+                    <div class="bg-green-100 dark:bg-green-900 p-3 rounded-lg mr-4">
+                        <i class="fa-solid fa-pen-nib text-secondary text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold">Writing Templates</h2>
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Master Task 1 (Charts/Graphs) and Task 2 (Essays) with structured shells and sample answers.</p>
+                <div class="flex space-x-2">
+                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Task 1 & 2</span>
+                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Model Answers</span>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 hover:shadow-md transition cursor-pointer">
+                <div class="flex items-center mb-4">
+                    <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded-lg mr-4">
+                        <i class="fa-solid fa-microphone-lines text-purple-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold">Speaking Generator</h2>
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Practice Parts 1, 2, and 3. Use the built-in voice recorder for self-awareness and review.</p>
+                <div class="flex space-x-2">
+                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Cue Cards</span>
+                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Voice Record</span>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 hover:shadow-md transition cursor-pointer">
+                <div class="flex items-center mb-4">
+                    <div class="bg-orange-100 dark:bg-orange-900 p-3 rounded-lg mr-4">
+                        <i class="fa-solid fa-calculator text-orange-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold">Band Calculator</h2>
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Input your raw scores for accurate Academic and General Training overall band estimations.</p>
+                <div class="flex space-x-2">
+                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">Academic</span>
+                    <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">General Training</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 dark:text-gray-400">
+            <div class="mb-4 md:mb-0">
+                &copy; 2026 IELTSFlow. Powered by Speakers World & Tutors. All rights reserved.
+            </div>
+            <div class="font-medium text-gray-700 dark:text-gray-300">
+                Developed by: Abidur Rahman Tahmid
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark Mode Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        // Check local storage or system preference on load
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            htmlElement.classList.remove('dark');
+            themeIcon.classList.replace('fa-sun', 'fa-moon');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+        });
+
+        // Placeholder UI interaction
+        document.querySelectorAll('.grid > div').forEach(card => {
+            card.addEventListener('click', () => {
+                alert('This module will open in the next phase of development!');
+            });
+        });
+    </script>
+</body>
+</html>
